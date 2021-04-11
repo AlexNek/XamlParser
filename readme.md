@@ -47,13 +47,14 @@ XamlMainObjectNode mainObjectNode = parser.Parse(fileName);
 ```
 For each node possible to check *Name*, *Attributes*, *Children* and occuped area (*LineNumberStart*, *LineNumberEnd*, *LinePositionStart*, *LinePositionEnd*)
 
-#Current Limitation
+## Current Limitation
 
 It is not allowed to have comments outside the main tag.
 Delimiters for strings is *"* only.
 No escape symbol \ allowed.
+No fully support of [XAML Grammar](XamlParser/Syntax.md)
 
-#Repository description
+## Repository description
 
 There is a lot more that library source code.
 Directories:
@@ -63,7 +64,7 @@ Directories:
 - XamlParser - Xaml parser library
 - XamlReaderTester - simple WPF application for testing real XAML files. Output into Trace window.
 
-#Additional links
+## Additional links
 
 [XAML language specification from Microsoft](https://download.microsoft.com/download/0/A/6/0A6F7755-9AF5-448B-907D-13985ACCF53E/%5BMS-XAML%5D.pdf)
 [EBNF for XML 1.0](http://jelks.nu/XML/xmlebnf.html)

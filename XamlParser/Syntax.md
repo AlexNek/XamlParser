@@ -1,4 +1,4 @@
-﻿## Declaring Namespaces
+## Declaring Namespaces
 
 [1]   	NSAttName	   ::=   	PrefixedAttName | DefaultAttName
 
