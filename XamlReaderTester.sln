@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31004.235
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlReaderTester", "XamlReaderTester\XamlReaderTester.csproj", "{2098CB08-A2F9-4123-9E4A-BE8B8AD37375}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlParser", "XamlParser\XamlParser.csproj", "{C1C14598-355A-4C4B-9E3F-37A2180D2E3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFiles", "TestFiles", "{70598DF6-AF4C-4C27-9BC7-715C65052F1C}"
+	ProjectSection(SolutionItems) = preProject
+		TestFiles\Attribute.xaml = TestFiles\Attribute.xaml
+		TestFiles\DbSelectionPanelSettings.xaml = TestFiles\DbSelectionPanelSettings.xaml
+		TestFiles\DynamicDataPanel.xaml = TestFiles\DynamicDataPanel.xaml
+		TestFiles\MainView.xaml = TestFiles\MainView.xaml
+		TestFiles\MainWindow.xaml = TestFiles\MainWindow.xaml
+		TestFiles\namespace01.xaml = TestFiles\namespace01.xaml
+		TestFiles\QualifiedName.xaml = TestFiles\QualifiedName.xaml
+		TestFiles\RecourceLocalization02.xaml = TestFiles\RecourceLocalization02.xaml
+		TestFiles\ResourceLocalization01.xaml = TestFiles\ResourceLocalization01.xaml
+		TestFiles\SplashScreenWindow.xaml = TestFiles\SplashScreenWindow.xaml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfParser", "WpfParser\WpfParser.csproj", "{011474A2-DB21-412C-9055-492C648AC223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProjectXamlReader", "UnitTestProjectXamlReader\UnitTestProjectXamlReader.csproj", "{E4A91F96-F485-4AC8-A628-C13779501167}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2098CB08-A2F9-4123-9E4A-BE8B8AD37375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2098CB08-A2F9-4123-9E4A-BE8B8AD37375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2098CB08-A2F9-4123-9E4A-BE8B8AD37375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2098CB08-A2F9-4123-9E4A-BE8B8AD37375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C14598-355A-4C4B-9E3F-37A2180D2E3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1C14598-355A-4C4B-9E3F-37A2180D2E3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1C14598-355A-4C4B-9E3F-37A2180D2E3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1C14598-355A-4C4B-9E3F-37A2180D2E3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{011474A2-DB21-412C-9055-492C648AC223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{011474A2-DB21-412C-9055-492C648AC223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{011474A2-DB21-412C-9055-492C648AC223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{011474A2-DB21-412C-9055-492C648AC223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4A91F96-F485-4AC8-A628-C13779501167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4A91F96-F485-4AC8-A628-C13779501167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4A91F96-F485-4AC8-A628-C13779501167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4A91F96-F485-4AC8-A628-C13779501167}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {635A3FEE-F55C-4EA4-9FCA-51C33B859485}
+	EndGlobalSection
+EndGlobal

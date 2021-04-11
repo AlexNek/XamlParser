@@ -1,0 +1,40 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+            
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:db="clr-namespace:Test.Db;assembly=Test.Db"
+             xmlns:viewModels="clr-namespace:Main.ViewModels"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" x:Class="Main.Views.DbSelectionPanelSettings"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance {x:Type viewModels:DbSelectionSettingsPanelViewModel}}"
+             Height="300" Width="300"
+            >
+    <!--<UserControl.DataContext>
+    <ViewModels:DbSelectionSettingsViewModel/>
+</UserControl.DataContext>-->
+    <Grid>
+        <StackPanel Margin="5">
+            <TextBlock Text="Plant" Margin="5"/>
+            <dxg:GridControl 
+                ItemsSource="{Binding ItemsDumpTypes}"
+                SelectedItem="{Binding SelectedDumpType}"
+                DesignTimeDataObjectType="{x:Type db:DbLookup}"
+                Height="130" 
+                SelectionMode="Row"  >
+                <dxg:GridControl.View>
+                    <dxg:TableView AllowGrouping="False" ShowGroupPanel="False" AllowEditing="False"/>
+                </dxg:GridControl.View>
+                <dxg:GridColumn FieldName="Name" />
+                <dxg:GridColumn FieldName="Id" ReadOnly="True"/>
+
+            </dxg:GridControl>
+            <TextBlock Text="Up to date" Margin="5"/>
+            <dxe:DateEdit IsTextEditable="True" EditValue="{Binding ModifyDate}" />
+
+        </StackPanel>
+    </Grid>
+</UserControl>

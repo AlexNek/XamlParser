@@ -1,0 +1,2 @@
+﻿<!-- the 'price' element's namespace is http://ecommerce.example.org/schema -->
+  <edi:price xmlns:edi='http://ecommerce.example.org/schema' units='Euro'>32.18</edi:price>

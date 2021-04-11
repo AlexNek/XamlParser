@@ -1,0 +1,155 @@
+﻿<UserControl  x:Name="MeltingDataPanel"
+              x:Class="Main.Views.TrcDynamicMeltingDataPanelEaf"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+              xmlns:viewModels="clr-namespace:Main.ViewModels"
+              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+              xmlns:behaviors="clr-namespace:Main.Behaviors"
+              xmlns:validation="clr-namespace:Main.Validation"
+              xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+              xmlns:dxci="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
+              xmlns:selectors="clr-namespace:SMS.Main.Selectors"
+              xmlns:implementation="clr-namespace:Main.Services.Implementation"
+              xmlns:trcViewModel="clr-namespace:Main.ViewModels.Trc"
+              xmlns:trcView="clr-namespace:Main.Views.Trc"
+              mc:Ignorable="d"
+              d:DataContext="{d:DesignInstance {x:Type trcViewModel:TrcViewModelEaf}}"
+              d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
+    <!--<UserControl.DataContext>
+    <viewModels:DynamicMeltingDataViewModel/>
+</UserControl.DataContext>-->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\..\UiGridCommonResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <selectors:BandTemplateSelector x:Key="BandTemplateSelector"/>
+            <DataTemplate x:Key="ColumnTemplate">
+                <ContentControl>
+                    <dxg:GridColumn FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
+                                    Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}"
+                                    SortMode="Custom"
+                                    />
+                    
+                </ContentControl>
+            </DataTemplate>
+            <DataTemplate x:Key="MultiColumnBandTemplate">
+                <ContentControl>
+                    <dxg:GridControlBand Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}" 
+                                         ColumnsSource="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).ChildColumns, RelativeSource={RelativeSource Self} }" 
+                                         ColumnGeneratorTemplate="{StaticResource ColumnTemplate}">
+                    </dxg:GridControlBand>
+                </ContentControl>
+            </DataTemplate>
+            <DataTemplate x:Key="SingleColumnBandTemplate">
+                <ContentControl>
+                    <!-- For bands with a single child column. Setting the OverlayHeaderByChildren property to "True" makes a child column to overlay its parent band's header -->
+                    <dxg:GridControlBand Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}" 
+                                         ColumnsSource="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).ChildColumns, RelativeSource={RelativeSource Self} }" 
+                                         ColumnGeneratorTemplate="{StaticResource ColumnTemplate}" 
+                                         OverlayHeaderByChildren="True" 
+                                         Fixed="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Fixed, RelativeSource={RelativeSource Self}}"/>
+                </ContentControl>
+            </DataTemplate>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <dxmvvm:Interaction.Behaviors>
+        <!--<implementation:ExportService View="{x:Reference gridViewMat}"  x:Name = "Materials" />-->
+        <implementation:ShowChartPanelUiService/>
+    </dxmvvm:Interaction.Behaviors>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center"><Run Text="Dynamic Melting data"/></TextBlock>
+        <!--ColumnsSource="{Binding DataContextMaterialPanel.Columns}"
+        ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}"-->
+        <!--DesignTimeDataObjectType="data:IMaterialData"-->
+        <!--ColumnsSource="{Binding DataContextDynamicMeltingData.Columns}"-->
+        <ToggleButton x:Name="btn" VerticalAlignment="Center" Margin="30,0" Content="Additional Settings" Grid.Row="1"/>
+        <dxe:FlyoutControl Grid.Row="1" PlacementTarget="{Binding ElementName=btn}" IsOpen="{Binding ElementName=btn, Path=IsChecked}" StaysOpen="True">
+            <dxe:FlyoutControl.Settings>
+                <dxe:FlyoutSettings Placement="Bottom"/>
+            </dxe:FlyoutControl.Settings>
+            <Grid Width="500">
+                <trcView:TrcDynamicSettingsViewLf />
+            </Grid>
+        </dxe:FlyoutControl>
+        <dx:LoadingDecorator Grid.Row="2">
+            <dxg:GridControl  
+                         AutoGenerateColumns="None" 
+                         ItemsSource="{Binding DataContextDynamicMeltingData.ItemsTable}" 
+                         BandsSource="{Binding DataContextDynamicMeltingData.Bands}" 
+                         ShowLoadingPanel="{Binding DataContextDynamicMeltingData.ShowLoadingPanel}"
+                         BandGeneratorTemplateSelector="{StaticResource BandTemplateSelector}"
+                         EnableSmartColumnsGeneration="False"
+                         SelectionMode="Cell">
+                <dxg:GridControl.ColumnGeneratorTemplate>
+                    <DataTemplate>
+                        <ContentControl>
+                            <dxg:GridColumn FieldName="{Binding FieldName}" />
+                        </ContentControl>
+                    </DataTemplate>
+                </dxg:GridControl.ColumnGeneratorTemplate>
+                <dxg:GridControl.ColumnGeneratorStyle>
+                    <Style TargetType="dxg:GridColumn">
+                        <Setter Property="HeaderTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <dxe:CheckEdit 
+                                            EditValue="{Binding Path=DataContext.(behaviors:ColumnSelectionHelper.IsColumnSelected), RelativeSource={RelativeSource AncestorType=dxg:GridColumnHeader}}" 
+                                            Visibility="{Binding DataContext.(dxci:DependencyObjectExtensions.DataContext).IsSelectionVisible, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=dxg:GridColumnHeader},Mode=OneTime}"
+/>
+                                        <TextBlock Text="{Binding}" Margin="2,0,0,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </dxg:GridControl.ColumnGeneratorStyle>
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand EventName="CustomColumnSort"
+                                           Command="{Binding DataContextDynamicMeltingData.CustomColumnSort}"
+                                           PassEventArgsToCommand="True">
+                    </dxmvvm:EventToCommand>
+                    <behaviors:ColumnSelectionHelper x:Name="helper" />
+                    <implementation:GridControlService/>
+                </dxmvvm:Interaction.Behaviors>
+                <dxg:GridControl.View>
+                    <dxg:TableView 
+                    ShowTotalSummary="False" 
+                    NavigationStyle="Cell" 
+                    AutoWidth="False" 
+                    ShowDataNavigator="True" 
+                    Loaded="TableView_Loaded" 
+                    AllowPrintDetails="True" 
+                    NewItemRowPosition="None" 
+                    
+                    ShowSelectionRectangle="False" 
+                    ShowCheckBoxSelectorColumn="True" 
+                    CheckBoxSelectorColumnWidth="25" AllowEditing="False">
+                        <dxmvvm:Interaction.Behaviors>
+                            <behaviors:DataNavigatorAlignmentLeftHelper/>
+                        </dxmvvm:Interaction.Behaviors>
+                        <dxg:TableView.ColumnMenuCustomizations>
+                            <dxb:BarButtonItem Content="Show Chart With selected columns" Command="{Binding DataContext.DataContextDynamicMeltingData.CommandShowChart, ElementName=MeltingDataPanelEaf}" dxb:BarItemLinkActionBase.ItemLinkIndex="0" />
+                            <dxb:BarItemLinkSeparator dxb:BarItemLinkActionBase.ItemLinkIndex="1" />
+                        </dxg:TableView.ColumnMenuCustomizations>
+                        <dxg:TableView.RowCellMenuCustomizations>
+                            <dxb:BarButtonItem Content="Show Chart With selected columns" Command="{Binding DataContext.DataContextDynamicMeltingData.CommandShowChart, ElementName=MeltingDataPanelEaf}" />
+                        </dxg:TableView.RowCellMenuCustomizations>
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </dx:LoadingDecorator>
+    </Grid>
+</UserControl>

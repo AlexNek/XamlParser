@@ -1,0 +1,23 @@
+
+    <Window x:Class="WpfApp1Localization.MainWindow"  
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
+        xmlns:local="clr-namespace:WpfApp1Localization"  
+        xmlns:CC="clr-namespace:WpfApp1Localization.Properties"  
+      
+    mc:Ignorable="d"  
+      
+    Title="{x:Static CC:Resources.Log_In}" Height="450" Width="800" Background="Chocolate">  
+        <Grid>  
+            <TextBox HorizontalAlignment="Left" Height="23" FontSize="12" Margin="412,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>  
+            <TextBox HorizontalAlignment="Left" Height="23" FontSize="12" Margin="412,233,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>  
+            <Label x:Name = "label1" Content="{x:Static CC:Resources.Log_In}" HorizontalAlignment="Left" FontSize="18" Margin="338,72,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,2.491"/>  
+            <Label x:Name = "label2" Content="{x:Static CC:Resources.User_Name}" HorizontalAlignment="Left" FontSize="12" Margin="245,152,0,0" VerticalAlignment="Top"/>  
+            <Label x:Name = "label3" Content="{x:Static CC:Resources.Password}" HorizontalAlignment="Left" FontSize="12" Margin="245,233,0,0" VerticalAlignment="Top"/>  
+            <Button x:Name = "button1" Content="{x:Static CC:Resources.Submit}" HorizontalAlignment="Left" Margin="338,330,0,0" VerticalAlignment="Top" Width="75"/>  
+            <Button x:Name="Button2" Content="{x:Static CC:Resources.Registration}" HorizontalAlignment="Left" Margin="245,340,0,0" VerticalAlignment="Top" Width="75"/>  
+            <Button x:Name="Button3" Content="{x:Static CC:Resources.Cancel}" HorizontalAlignment="Left" Margin="532,335,0,0" VerticalAlignment="Top" Width="75"/>  
+        </Grid>  
+    </Window>   

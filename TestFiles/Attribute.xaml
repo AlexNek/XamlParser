@@ -1,0 +1,4 @@
+﻿<x xmlns:edi='http://ecommerce.example.org/schema'>
+  <!-- the 'taxClass' attribute's namespace is http://ecommerce.example.org/schema -->
+  <lineItem edi:taxClass="exempt">Baby food</lineItem>
+</x>
