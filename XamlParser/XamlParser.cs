@@ -56,23 +56,23 @@ namespace Parser
                     break;
                 }
 
-                if (ch == '<')
+                if (ch == SymbolScanner.SymbolStartTag)
                 {
                     //tagBracketClosed = false;
                     lineNumberStart = scanner.LineNumber;
                     //open tag symbol must be start not the next symbol
                     linePositionStart = scanner.CharPosition - 1;
                     char chNext = scanner.NextSymbol;
-                    if (chNext == '/')
+                    if (chNext == SymbolScanner.SymbolCloseTag)
                     {
                         scanner.SkipSymbol();
-                        ident = GetName(scanner);
+                        ident = scanner.GetName();
                         if (DoEndTag(ident, scanner))
                         {
                             CloseTag(ident, scanner, objStack);
                         }
                     }
-                    else if (chNext == '!')
+                    else if (chNext == SymbolScanner.SymbolStartComment)
                     {
                         string comment = scanner.ReadComment();
                         Trace.WriteLine($"{lineNumberStart + 1}:{linePositionStart + 1} Comment:{comment}");
@@ -90,7 +90,7 @@ namespace Parser
                     else
                     {
                         char breakSymbol;
-                        ident = GetName(scanner);
+                        ident = scanner.GetName();
                         breakSymbol = scanner.NextSymbol;
                         //ident = GetIdent(fileStream, out breakSymbol);
                         Trace.WriteLine($"{lineNumberStart + 1}:{linePositionStart + 1} Start Tag:{ident}");
@@ -109,13 +109,13 @@ namespace Parser
                             objStack.Push(currentNode);
                         }
 
-                        if (breakSymbol != '>')
+                        if (breakSymbol != SymbolScanner.SymbolEndTag)
                         {
                             scanner.SkipSpaces();
                             breakSymbol = scanner.NextSymbol;
                         }
 
-                        if (breakSymbol == '/')
+                        if (breakSymbol == SymbolScanner.SymbolCloseTag)
                         {
                             //end of tag
                             if (DoEndTag(ident, scanner))
@@ -123,7 +123,7 @@ namespace Parser
                                 CloseTag(ident, scanner, objStack);
                             }
                         }
-                        else if (breakSymbol != '>')
+                        else if (breakSymbol != SymbolScanner.SymbolEndTag)
                         {
                             XamlObjectNode objectNode = null;
                             if (objStack.Count > 0)
@@ -144,7 +144,7 @@ namespace Parser
                                 Trace.WriteLine("Tag end symbol for:" + ident);
                             }
 
-                            if (scanner.NextSymbol == '/')
+                            if (scanner.NextSymbol == SymbolScanner.SymbolCloseTag)
                             {
                                 //end of tag
                                 if (DoEndTag(ident, scanner))
@@ -205,8 +205,16 @@ namespace Parser
                 char chNext1 = scanner.CheckEndOfLine(scanner.NextSymbol);
             }
 
-            if (mainObject == null && objStack.Count > 0)
+            if (objStack.Count > 0)
             {
+                //ignore exception by non closed main state. Temporary
+                if (mainObject != null && objStack.Count == 1)
+                {
+                    if (!mainObject.IsState(XamlNodeBase.EState.Closed))
+                    {
+                        return mainObject;
+                    }
+                }
                 _errorHandler?.Error($"unused {objStack.Count} nodes", scanner);
             }
 
@@ -261,7 +269,7 @@ namespace Parser
             bool ret = false;
             Trace.WriteLine("End Tag:" + ident);
             scanner.SkipSpaces();
-            if (scanner.NextSymbol == '/')
+            if (scanner.NextSymbol == SymbolScanner.SymbolCloseTag)
             {
                 scanner.SkipSymbol();
                 scanner.SkipSpaces();
@@ -280,47 +288,6 @@ namespace Parser
             return ret;
         }
 
-        private static string GetName(SymbolScanner scanner)
-        {
-            bool IsNotTerminalSymbol(char c)
-            {
-                return c != ':' && c != '=' && c != '>' && c != ' ' && c != '/';
-            }
-
-            string ident = scanner.GetIdent();
-            char breakSymbol = scanner.NextSymbol;
-            //chNext = TestNextSymbol(fileStream);
-            if (IsNotTerminalSymbol(breakSymbol))
-            {
-                scanner.SkipSpaces();
-                breakSymbol = scanner.NextSymbol;
-                if (IsNotTerminalSymbol(breakSymbol))
-                {
-                    breakSymbol = scanner.GetSymbol();
-                }
-            }
-
-            if (breakSymbol == ':')
-            {
-                //SkipSymbol(fileStream);
-                string ident2 = scanner.GetIdent();
-                breakSymbol = scanner.NextSymbol;
-                ident += ':' + ident2;
-                if (breakSymbol != '=' && breakSymbol != ' ' && breakSymbol != '>')
-                {
-                    scanner.SkipSpaces();
-                    breakSymbol = scanner.GetSymbol();
-                }
-            }
-
-            return ident;
-        }
-
-        //private void ParseError(string text, SymbolScanner scanner)
-        //{
-        //    Trace.WriteLine("Parse error:" + text);
-        //}
-
         private static bool ReadAttributes(XamlObjectNode xamlObjectNode, SymbolScanner scanner, char chNext)
         {
             bool ret = false;
@@ -328,7 +295,7 @@ namespace Parser
             string attributeName = string.Empty;
             string attributeValue = string.Empty;
 
-            while (chNext != '>')
+            while (chNext != SymbolScanner.SymbolEndTag)
             {
                 scanner.SkipSpaces();
 
@@ -337,7 +304,7 @@ namespace Parser
                 int linePositionValue = -1;
                 int lineNumberAttrName = scanner.LineNumber;
                 int linePositionAttrName = scanner.CharPosition;
-                if (scanner.NextSymbol == '/' || scanner.NextSymbol == '>')
+                if (scanner.NextSymbol == SymbolScanner.SymbolCloseTag || scanner.NextSymbol == SymbolScanner.SymbolEndTag)
                 {
                     if (attribute != null)
                     {
@@ -349,11 +316,11 @@ namespace Parser
                     break;
                 }
 
-                attributeName = GetName(scanner);
+                attributeName = scanner.GetName();
                 scanner.SkipSpaces();
                 breakSymbol = scanner.NextSymbol;
 
-                if (breakSymbol == '=')
+                if (breakSymbol == SymbolScanner.SymbolEq)
                 {
                     //skip '='
                     scanner.SkipSymbol();
@@ -363,7 +330,7 @@ namespace Parser
                     attributeValue = scanner.ReadString();
                     chNext = scanner.CheckEndOfLine(scanner.NextSymbol);
                 }
-                else if (breakSymbol == '>')
+                else if (breakSymbol == SymbolScanner.SymbolEndTag)
                 {
                     if (attribute != null)
                     {
@@ -373,7 +340,7 @@ namespace Parser
 
                     chNext = breakSymbol;
                 }
-                else if (breakSymbol == '/')
+                else if (breakSymbol == SymbolScanner.SymbolCloseTag)
                 {
                     chNext = scanner.GetSymbol();
                     chNext = scanner.NextSymbol;
@@ -411,7 +378,7 @@ namespace Parser
                         attributeValue));
             }
 
-            ret = chNext == '>';
+            ret = chNext == SymbolScanner.SymbolEndTag;
             chNext = scanner.CheckEndOfLine(scanner.NextSymbol);
             if (ret)
             {
