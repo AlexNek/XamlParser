@@ -49,10 +49,10 @@ For each node possible to check *Name*, *Attributes*, *Children* and occuped are
 
 ## Current Limitation
 
-It is not allowed to have comments outside the main tag.
-Delimiters for strings is *"* only.
-No escape symbol \ allowed.
-No fully support of [XAML Grammar](XamlParser/Syntax.md)
+- It is not allowed to have comments outside the main tag.
+- Delimiters for strings is *"* only.
+- No escape symbol \ allowed.
+- No fully support of [XAML Grammar](XamlParser/Syntax.md)
 
 ## Repository description
 
