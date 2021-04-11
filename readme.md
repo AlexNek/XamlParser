@@ -67,5 +67,7 @@ Directories:
 ## Additional links
 
 [XAML language specification from Microsoft](https://download.microsoft.com/download/0/A/6/0A6F7755-9AF5-448B-907D-13985ACCF53E/%5BMS-XAML%5D.pdf)
+
 [EBNF for XML 1.0](http://jelks.nu/XML/xmlebnf.html)
+
 [XML 1.1 EBNF](https://www.liquid-technologies.com/XML/EBNF1.1.aspx)
